@@ -22,50 +22,10 @@ An implementation of a memory allocator in C
   memory. Unavailable chunks are released to the user for use as he 
   pleases.
 
-   Layout of memory for a chunk that has been given to the user
+   Look at the layout of memory for available and unavailable chunks
+   in wmalloc.h.
 
-   >+++++++++++++++++++++++
-   >- size of prev chunk  -
-   >- in use flag (1 bit) -
-   >+++++++++++++++++++++++
-   >- size of curr chunk  -
-   >-                     -
-   >+++++++++++++++++++++++ <---- mem address returned to user
-   >-                     -
-   >-      for user       -
-   >-                     -
-   >+++++++++++++++++++++++
-   >- size of next chunk  -
-   >- in use flag (1 bit) -
-   >+++++++++++++++++++++++
-
-
-
-   Layout of memory for a chunk stored in a bin
-
-   >+++++++++++++++++++++++
-   >- size of prev chunk  -
-   >- in use flag (1 bit) -
-   >+++++++++++++++++++++++
-   >- size of curr chunk  -
-   >-                     -
-   >+++++++++++++++++++++++
-   >-  ptr to prev chunk  -
-   >-    <------          -
-   >+++++++++++++++++++++++
-   >-  ptr to next chunk  -
-   >-          ------->   -
-   >+++++++++++++++++++++++
-   >-                     -
-   >-    unused space     -
-   >-    (could be 0)     -
-   >-                     -
-   >+++++++++++++++++++++++
-   >- size of next chunk  -
-   >- in use flag (1 bit) -
-   >+++++++++++++++++++++++
-
-
+ 
    Note the flags for the previous and next chunk sizes. These flags
    are the upper most bit of the 8 byte block. A flag set to 0 indi-
    cates that the next or previous chunk is available. A flag of 1
