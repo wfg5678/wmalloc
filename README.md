@@ -24,46 +24,46 @@ An implementation of a memory allocator in C
 
    Layout of memory for a chunk that has been given to the user
 
-  \ +++++++++++++++++++++++
-   \- size of prev chunk  -
-   \- in use flag (1 bit) -
-   \+++++++++++++++++++++++
-   \- size of curr chunk  -
-   \-                     -
-   \+++++++++++++++++++++++ <---- mem address returned to user
-   \-                     -
-   \-      for user       -
-   \-                     -
-   \+++++++++++++++++++++++
-   \- size of next chunk  -
-   \- in use flag (1 bit) -
-   \+++++++++++++++++++++++
+   >+++++++++++++++++++++++
+   >- size of prev chunk  -
+   >- in use flag (1 bit) -
+   >+++++++++++++++++++++++
+   >- size of curr chunk  -
+   >-                     -
+   >+++++++++++++++++++++++ <---- mem address returned to user
+   >-                     -
+   >-      for user       -
+   >-                     -
+   >+++++++++++++++++++++++
+   >- size of next chunk  -
+   >- in use flag (1 bit) -
+   >+++++++++++++++++++++++
 
 
 
    Layout of memory for a chunk stored in a bin
 
-   +++++++++++++++++++++++
-   - size of prev chunk  -
-   - in use flag (1 bit) -
-   +++++++++++++++++++++++
-   - size of curr chunk  -
-   -                     -
-   +++++++++++++++++++++++
-   -  ptr to prev chunk  -
-   -    <------          -
-   +++++++++++++++++++++++
-   -  ptr to next chunk  -
-   -          ------->   -
-   +++++++++++++++++++++++
-   -                     -
-   -    unused space     -
-   -    (could be 0)     -
-   -                     -
-   +++++++++++++++++++++++
-   - size of next chunk  -
-   - in use flag (1 bit) -
-   +++++++++++++++++++++++
+   >+++++++++++++++++++++++
+   >- size of prev chunk  -
+   >- in use flag (1 bit) -
+   >+++++++++++++++++++++++
+   >- size of curr chunk  -
+   >-                     -
+   >+++++++++++++++++++++++
+   >-  ptr to prev chunk  -
+   >-    <------          -
+   >+++++++++++++++++++++++
+   >-  ptr to next chunk  -
+   >-          ------->   -
+   >+++++++++++++++++++++++
+   >-                     -
+   >-    unused space     -
+   >-    (could be 0)     -
+   >-                     -
+   >+++++++++++++++++++++++
+   >- size of next chunk  -
+   >- in use flag (1 bit) -
+   >+++++++++++++++++++++++
 
 
    Note the flags for the previous and next chunk sizes. These flags
