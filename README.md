@@ -25,18 +25,18 @@ An implementation of a memory allocator in C
    Layout of memory for a chunk that has been given to the user
 
    +++++++++++++++++++++++
-   + size of prev chunk  +
-   + in use flag (1 bit) +
+   - size of prev chunk  -
+   - in use flag (1 bit) -
    +++++++++++++++++++++++
-   + size of curr chunk  +
-   +                     +
+   - size of curr chunk  -
+   -                     -
    +++++++++++++++++++++++ <---- mem address returned to user
-   +                     +
-   +      for user       +
-   +                     +
+   -                     -
+   -      for user       -
+   -                     -
    +++++++++++++++++++++++
-   + size of next chunk  +
-   + in use flag (1 bit) +
+   - size of next chunk  -
+   - in use flag (1 bit) -
    +++++++++++++++++++++++
 
 
@@ -44,25 +44,25 @@ An implementation of a memory allocator in C
    Layout of memory for a chunk stored in a bin
 
    +++++++++++++++++++++++
-   + size of prev chunk  +
-   + in use flag (1 bit) +
+   - size of prev chunk  -
+   - in use flag (1 bit) -
    +++++++++++++++++++++++
-   + size of curr chunk  +
-   +                     +
+   - size of curr chunk  -
+   -                     -
    +++++++++++++++++++++++
-   +  ptr to prev chunk  +
-   +    <------          +
+   -  ptr to prev chunk  -
+   -    <------          -
    +++++++++++++++++++++++
-   +  ptr to next chunk  +
-   +          ------->   +
+   -  ptr to next chunk  -
+   -          ------->   -
    +++++++++++++++++++++++
-   +                     +
-   +    unused space     +
-   +    (could be 0)     +
-   +                     +
+   -                     -
+   -    unused space     -
+   -    (could be 0)     -
+   -                     -
    +++++++++++++++++++++++
-   + size of next chunk  +
-   + in use flag (1 bit) +
+   - size of next chunk  -
+   - in use flag (1 bit) -
    +++++++++++++++++++++++
 
 
@@ -81,13 +81,15 @@ An implementation of a memory allocator in C
    a chunk of memory is requested the proper bin is searched for a 
    chunk of suitable size.
 
-   bin 0: up to 40 bytes: [dummy] -> [chunk1] -> [chunk2] -> x
-   bin 1: up to 48 bytes: [dummy] -> [chunk3] ->  x
-   bin 2: up to 56 bytes: [dummy] -> [chunk4] -> [chunk5] -> x
+   bin 0: up to 40 bytes: [dummy] -> [chunk1] -> [chunk2] -> NULL
+   
+   bin 1: up to 48 bytes: [dummy] -> [chunk3] ->  NULL
+   
+   bin 2: up to 56 bytes: [dummy] -> [chunk4] -> [chunk5] -> NULL
 
    ...
 
-   bin 35: up to 1024 bytes: [dummy] -> [chunk6] -> [chunk7] -> x
+   bin 35: up to 1024 bytes: [dummy] -> [chunk6] -> [chunk7] -> NULL
 
    ...
 
