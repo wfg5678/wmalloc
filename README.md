@@ -24,20 +24,20 @@ An implementation of a memory allocator in C
 
    Layout of memory for a chunk that has been given to the user
 
-   +++++++++++++++++++++++
-   - size of prev chunk  -
-   - in use flag (1 bit) -
-   +++++++++++++++++++++++
-   - size of curr chunk  -
-   -                     -
-   +++++++++++++++++++++++ <---- mem address returned to user
-   -                     -
-   -      for user       -
-   -                     -
-   +++++++++++++++++++++++
-   - size of next chunk  -
-   - in use flag (1 bit) -
-   +++++++++++++++++++++++
+  \ +++++++++++++++++++++++
+   \- size of prev chunk  -
+   \- in use flag (1 bit) -
+   \+++++++++++++++++++++++
+   \- size of curr chunk  -
+   \-                     -
+   \+++++++++++++++++++++++ <---- mem address returned to user
+   \-                     -
+   \-      for user       -
+   \-                     -
+   \+++++++++++++++++++++++
+   \- size of next chunk  -
+   \- in use flag (1 bit) -
+   \+++++++++++++++++++++++
 
 
 
