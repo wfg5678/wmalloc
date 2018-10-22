@@ -1,8 +1,12 @@
+/*
+  A very simple example of wmalloc
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
-#include "wmalloc.h"
 #include <time.h>
-
+#include "wmalloc.h"
 
 int main(){
 

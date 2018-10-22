@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
-//#define NDEBUG
+#define NDEBUG
 
 #include <assert.h>
 
@@ -21,15 +21,15 @@
 
   How it works:
 
-  The basic chunk of memory is called a "chunk". A chunk consists of
+  The basic unit of memory is called a "chunk". A chunk consists of
   memory that is available for the user who requested the memory.
   Generally, many chunks will sit side by side in memory. Each chunk 
-  has 3 bytes of overhead for tracking. The three bytes are for:
+  also has 24 bytes of overhead for tracking. The three bytes are for:
 
 
-  -Holding the size of the chunk that precedes it memory
-  -Holding the size of the chunk itself
-  -Holding the size of the chunk that is next in memory
+  -Holding the size of the chunk that precedes it memory (8 bytes)
+  -Holding the size of the chunk itself (8 bytes)
+  -Holding the size of the chunk that is next in memory (8 bytes)
 
 
   Chunks exist in two states: available and unavailable.
@@ -102,7 +102,7 @@
 
    ...
 
-   bin 35: up to 1024 bytes: [dummy] -> [chunk5] -> [chunk6] -> x
+   bin 35: up to 1024 bytes: [dummy] -> [chunk6] -> [chunk7] -> x
 
    ...
 
@@ -559,7 +559,7 @@ void set_available(struct chunk* ch){
    }
 
    //prev chunk
-   if(ch->prev_chunk_size != 0){
+   if(get_prev_chunk_size(ch) != 0){
      struct chunk* prev_chunk = get_prev_chunk(ch);
      set_next_chunk_size(prev_chunk, chunk_size);
    }
@@ -798,7 +798,6 @@ void split_chunk(struct chunk* to_remove, uint64_t required_length){
 
     uint64_t next_chunk_size = to_remove->curr_chunk_size - required_length;
     uint64_t save_chunk_size = get_next_chunk_size(to_remove);
-
     
     to_remove->curr_chunk_size = required_length;
     set_next_chunk_size(to_remove, next_chunk_size);
@@ -810,11 +809,12 @@ void split_chunk(struct chunk* to_remove, uint64_t required_length){
     set_prev_chunk_size(new_chunk, to_remove->curr_chunk_size);
     set_next_chunk_size(new_chunk, save_chunk_size);
 
- 
+    set_available(new_chunk);
     add_chunk(new_chunk);
+    set_adjacent_sizes(to_remove, 1);
   }
 
-    set_unavailable(to_remove);
+  set_unavailable(to_remove);
 
   return;
 }
@@ -861,7 +861,7 @@ void wfree(void* to_free){
   set_available(ch);
 
   if(is_prev_available(ch) == 1){
-   
+    
     struct chunk* prev_chunk = remove_chunk(get_prev_chunk(ch));
     ch = join_chunks(prev_chunk, ch);
     
